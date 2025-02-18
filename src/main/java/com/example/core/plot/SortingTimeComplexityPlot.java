@@ -22,8 +22,9 @@ public class SortingTimeComplexityPlot extends JFrame {
         XYSeries radixSortSeries = new XYSeries("Radix Sort");
         XYSeries insertionSortSeries = new XYSeries("Insertion Sort");
         XYSeries selectionSortSeries = new XYSeries("Selection Sort");
+        XYSeries mergeSortSeries = new XYSeries("Merge Sort");
 
-        int[] sizes = {10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000};
+        int[] sizes = {100, 500, 1000, 2000, 5000, 10_000, 20_000, 30_000, 40_000, 50_000};
 
         for (int size : sizes) {
             int[] randomArray = generateRandomArray(size);
@@ -31,10 +32,12 @@ public class SortingTimeComplexityPlot extends JFrame {
             long radixTime = measureTime(() -> SortingUtility.radixSort(randomArray));
             long insertionTime = measureTime(() -> SortingUtility.insertSort(randomArray));
             long selectionTime = measureTime(() -> SortingUtility.selectSort(randomArray));
+            long mergeTime = measureTime(() -> SortingUtility.mergeSort(randomArray));
 
             radixSortSeries.add(size, radixTime);
             insertionSortSeries.add(size, insertionTime);
             selectionSortSeries.add(size, selectionTime);
+            mergeSortSeries.add(size, mergeTime);
         }
 
         // Add series to dataset
@@ -42,6 +45,7 @@ public class SortingTimeComplexityPlot extends JFrame {
         dataset.addSeries(radixSortSeries);
         dataset.addSeries(insertionSortSeries);
         dataset.addSeries(selectionSortSeries);
+        dataset.addSeries(mergeSortSeries);
 
         // Create chart
         JFreeChart chart = ChartFactory.createXYLineChart(

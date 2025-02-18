@@ -4,6 +4,35 @@ import java.util.Arrays;
 
 public class SortingUtility {
 
+    public static int[] mergeSort(int[] arr) {
+        int[] clonedArray = arr.clone();
+        mergeSortHelper(clonedArray, 0, clonedArray.length - 1);
+        return clonedArray;
+    }
+
+    private static void mergeSortHelper(int[] arr, int left, int right) {
+        if (left >= right) return; // Base case: single-element array
+        int middle = (right + left) / 2;
+        // Recursively sort both halves
+        mergeSortHelper(arr, left, middle);
+        mergeSortHelper(arr, middle + 1, right);
+        // Merge the sorted halves
+        merge(arr, left, middle, right);
+    }
+
+    private static void merge(int[] arr, int left, int middle, int right) {
+        int[] temp = new int[right - left + 1];
+        int i = left, j = middle + 1, k = 0;
+        while (i <= middle && j <= right) {
+            if (arr[i] <= arr[j]) temp[k++] = arr[i++];
+            else temp[k++] = arr[j++];
+        }
+        while (i <= middle) temp[k++] = arr[i++];
+        while (j <= right) temp[k++] = arr[j++];
+        // Copy merged elements back to original array
+        System.arraycopy(temp, 0, arr, left, temp.length);
+    }
+
     public static int[] radixSort(int[] arr) {
         if (arr == null || arr.length == 0) {
             throw new IllegalArgumentException("Array cannot be null or empty");
